@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fiam="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white">
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="16dp"
+        android:text="@string/contacts"
+        fiam:layout_constraintEnd_toEndOf="parent"
+        fiam:layout_constraintHorizontal_bias="0.498"
+        fiam:layout_constraintStart_toStartOf="parent"
+        fiam:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/Email"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="39dp"
+        android:fontFamily="@font/biryani_light"
+        android:text="@string/email"
+        fiam:layout_constraintBottom_toTopOf="@+id/Insta"
+        fiam:layout_constraintEnd_toEndOf="parent"
+        fiam:layout_constraintHorizontal_bias="0.427"
+        fiam:layout_constraintStart_toStartOf="parent"
+        fiam:layout_constraintTop_toBottomOf="@+id/textView5" />
+
+    <TextView
+        android:id="@+id/Insta"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:fontFamily="@font/biryani_light"
+        android:text="@string/insta_id"
+        fiam:layout_constraintBottom_toTopOf="@+id/Info"
+        fiam:layout_constraintEnd_toEndOf="parent"
+        fiam:layout_constraintHorizontal_bias="0.497"
+        fiam:layout_constraintStart_toStartOf="parent"
+        fiam:layout_constraintTop_toBottomOf="@+id/Email" />
+
+    <TextView
+        android:id="@+id/Info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/biryani_light"
+        android:text="@string/following_button"
+        fiam:layout_constraintEnd_toEndOf="parent"
+        fiam:layout_constraintHorizontal_bias="0.61"
+        fiam:layout_constraintStart_toStartOf="parent"
+        fiam:layout_constraintTop_toBottomOf="@+id/Insta" />
+
+    <ImageButton
+        android:id="@+id/Insta_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:src="@drawable/insta"
+        fiam:layout_constraintBottom_toBottomOf="parent"
+        fiam:layout_constraintEnd_toEndOf="parent"
+        fiam:layout_constraintStart_toStartOf="parent"
+        fiam:layout_constraintTop_toBottomOf="@+id/Info" />
+</androidx.constraintlayout.widget.ConstraintLayout>
