@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="about">About</string>
+    <string name="app_name">Search local apps</string>
+    <string name="code_chakra_studio">Code Chakra Studio</string>
+    <string name="contacts">Contacts</string>
+    <string name="email">Email: akshayvshinde98@gmail.com</string>
+    <string name="made_by">This app is made by Akshay Shinde</string>
+    <string name="insta_id">instagram.com/code_chakra</string>
+    <string name="refresh">Refresh</string>
+    <string name="search_menu_title">Search</string>
+    <string name="following_button">Click on following icon to open in instagram</string>
+</resources>
