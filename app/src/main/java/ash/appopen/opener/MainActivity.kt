@@ -17,6 +17,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.recyclerview.widget.LinearLayoutManager
 import ash.appopen.opener.databinding.ActivityMainBinding
 import com.google.firebase.FirebaseApp
@@ -30,14 +31,17 @@ class MainActivity : AppCompatActivity() {
     private lateinit var mainBinding: ActivityMainBinding
     var firstTimeRan =  false
     val executor = Executors.newSingleThreadExecutor()
-
+    val handler = Handler(Looper.getMainLooper())
     /* access modifiers changed from: protected */
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        installSplashScreen()
+
         mainBinding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(mainBinding.root)
         appList = ArrayList()
-        val handler = Handler(Looper.getMainLooper())
+
+        mainBinding.progressCard.visibility = View.VISIBLE
         executor.execute {
             firstTimeRan = true
 
@@ -46,10 +50,14 @@ class MainActivity : AppCompatActivity() {
             pkgAppsList = packageManager.queryIntentActivities(intent, 0) as ArrayList<ResolveInfo>
             pkgAppsList!!.forEach()
             {
-                appList?.add(InstalledApp(it.activityInfo.loadLabel(packageManager).toString(),
-                    it.activityInfo.packageName, packageManager.getApplicationIcon(it.activityInfo.packageName)))
+                if (it.activityInfo.loadLabel(packageManager).toString().lowercase() != "search local apps"){
+                    appList?.add(InstalledApp(it.activityInfo.loadLabel(packageManager).toString(),
+                        it.activityInfo.packageName, packageManager.getApplicationIcon(it.activityInfo.packageName)))
+                }
+
             }
             handler.post {
+                mainBinding.progressCard.visibility = View.GONE
                 mainBinding.AppRecyclerContainer.layoutManager = LinearLayoutManager(this)
                 appList?.let {
                     val appAdapter = AppAdapter(it)
@@ -130,24 +138,32 @@ class MainActivity : AppCompatActivity() {
 
     /* access modifiers changed from: private */
     fun refreshRecyclerView() {
-        if (pkgAppsList != null) {
-            val intent = Intent("android.intent.action.MAIN", null as Uri?)
-            intent.addCategory("android.intent.category.LAUNCHER")
-            pkgAppsList!!.clear()
-            appList?.clear()
-            pkgAppsList = packageManager.queryIntentActivities(intent, 0) as ArrayList<ResolveInfo>
-            pkgAppsList!!.forEach()
-            {
-                appList?.add(InstalledApp(it.activityInfo.loadLabel(packageManager).toString(),
-                    it.activityInfo.packageName, packageManager.getApplicationIcon(it.activityInfo.packageName)))
-            }
-            mAdapter = null
-            appList?.let {
-                val appAdapter = AppAdapter(it)
-                mAdapter = appAdapter
-                mainBinding.AppRecyclerContainer.adapter = appAdapter
+        executor.execute {
+            if (pkgAppsList != null) {
+                val intent = Intent("android.intent.action.MAIN", null as Uri?)
+                intent.addCategory("android.intent.category.LAUNCHER")
+                pkgAppsList!!.clear()
+                appList?.clear()
+                pkgAppsList = packageManager.queryIntentActivities(intent, 0) as ArrayList<ResolveInfo>
+                pkgAppsList!!.forEach()
+                {
+                    if (it.activityInfo.loadLabel(packageManager).toString().lowercase() != "search local apps"){
+                        appList?.add(InstalledApp(it.activityInfo.loadLabel(packageManager).toString(),
+                            it.activityInfo.packageName, packageManager.getApplicationIcon(it.activityInfo.packageName)))
+                    }
+                }
+                handler.post {
+                    mAdapter = null
+                    appList?.let {
+                        val appAdapter = AppAdapter(it)
+                        mAdapter = appAdapter
+                        mainBinding.AppRecyclerContainer.adapter = appAdapter
+                    }
+                }
+
             }
         }
+
 
 
     }
